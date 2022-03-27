@@ -53,8 +53,8 @@
   export default {
     name: 'sentence-builder',
     async beforeMount() {
-      await this.loadWordTypes();
       await this.loadSentences();
+      await this.loadWordTypes();
     },
     data: () => ({
       wordTypes: [],
@@ -63,9 +63,9 @@
       words: [],
       filteredWords: [],
       selectedWord: '',
+      previousSentences: [],
       sentence: '',
       position: 1,
-      previousSentences: []
     }),
     methods: {
       async addWordToSentence() {
@@ -83,13 +83,13 @@
         this.position += 1;
       },
       async completeSentence() {
-        await this.loadSentences();
         const api = 'http://localhost:3000/sentence';
         await this.axios.post(api, {
               position: -1
         });
         this.sentence = '';
         this.position = 1;
+        await this.loadSentences();
       },
       async loadWordTypes() {
         const api = 'http://localhost:3000/word-types';
@@ -111,12 +111,9 @@
       },
       async loadSentences() {
         const api = 'http://localhost:3000/sentence';
-        var sentencesFromApi = [];
-        await this.axios.get(api, (response) => {
-          console.log(response);
-          sentencesFromApi = response.data;
-        });
-        this.previousSentences = sentencesFromApi;
+        await this.axios.get(api).then((response) => {
+          this.previousSentences = response.data;
+        })
       },
       findWordTypeIdByWordType(word) {
         for (let x in this.wordTypes) {
