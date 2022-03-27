@@ -58,10 +58,8 @@
     },
     data: () => ({
       wordTypes: [],
-      filteredWordTypes: [],
       selectedWordType: '',
       words: [],
-      filteredWords: [],
       selectedWord: '',
       previousSentences: [],
       sentence: '',
@@ -95,8 +93,6 @@
         const api = 'http://localhost:3000/word-types';
         await this.axios.get(api).then((response) => {
           this.wordTypes = response.data;
-          this.filteredWordTypes = this.wordTypes.reduce((a, currentValue) =>
-          [...a, currentValue.wordType], []);
         })
       },
       async loadWords() {
@@ -105,8 +101,6 @@
         api += '?id=' + wordTypeObj.id;
         await this.axios.get(api).then((response) => {
           this.words = response.data;
-          this.filteredWords = this.words.reduce((a, currentValue) =>
-          [...a, currentValue.word], []);
         })
       },
       async loadSentences() {
@@ -123,5 +117,19 @@
         return null;
       }
     },
+    computed: {
+      filteredWords: function() {
+        if (this.words.length == 0) return [];
+
+        return this.words.reduce((a, currentValue) =>
+          [...a, currentValue.word], []);
+      },
+      filteredWordTypes: function() {
+        if (this.wordTypes.length == 0) return [];
+
+        return this.wordTypes.reduce((a, currentValue) =>
+          [...a, currentValue.wordType], []);
+      }
+    }
   }
 </script>
