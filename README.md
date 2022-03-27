@@ -1,5 +1,11 @@
 # frontend
 
+Ensure Vue CLI tool is installed and server is running on localhost:3000
+
+```
+npm install -g @vue/cli
+```
+
 ## Project setup
 ```
 npm install
@@ -9,11 +15,3 @@ npm install
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
